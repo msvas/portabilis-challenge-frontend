@@ -161,7 +161,7 @@ export default {
                        { keyword: this.keyword,
                          sort: this.sort })
                  .then((response) => {
-        this.users = response.data
+        this.users = response
       })
     },
     clearFilters() {

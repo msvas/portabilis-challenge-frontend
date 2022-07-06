@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <div class="card rounded-0 mb-0 px-2">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="card p-1 mt-4" style="width: 550px;">
+
+      <h1 class="text-center">RHCorp</h1>
 
       <div class="divider">
         <hr />
@@ -60,7 +62,7 @@
           </form>
 
           <nuxt-link :to="{ path: '/cadastro' }">
-            <button class="btn btn-primary float-left btn-inline" style="">
+            <button class="btn btn-outline-primary float-left btn-inline ml-2" style="">
               Criar conta
             </button>
           </nuxt-link>

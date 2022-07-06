@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <div class="card rounded-0 mb-0 px-2">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="card p-1 mt-4" style="width: 550px;">
+
+      <h1 class="text-center">RHCorp</h1>
 
       <div class="divider">
         <hr />
@@ -8,6 +10,7 @@
 
       <div class="card-content">
         <div class="card-body pt-1">
+          <h4 class="mb-1">Criar usuário</h4>
           <form @submit.prevent="submit">
             <fieldset class="form-label-group form-group position-relative">
               <input
@@ -107,10 +110,15 @@
 
     </div>
 
-    <b-modal id="modalPopover" v-model="modalShow" title="Conta criada com sucesso!" ok-only>
+    <b-modal id="modalPopover" v-model="modalShow" title="Conta criada com sucesso!">
       <p>
         A conta já foi criada no sistema.
       </p>
+      <template #modal-footer="{ ok }">
+        <b-button variant="success" @click="$router.push({ path: '/' })">
+          Ir para login
+        </b-button>
+      </template>
     </b-modal>
 
   </div>
@@ -138,8 +146,6 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.$axios.$post('auth', this.user).then((response) => {
-            console.log(response)
-            console.log('criada')
             this.modalShow = true
           }).catch((error) => {
             let errorResponse = error.response
