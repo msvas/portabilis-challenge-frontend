@@ -56,6 +56,28 @@ export default {
     '@nuxtjs/auth-next',
   ],
 
+  axios: {
+    // See https://github.com/nuxt-community/axios-module#options
+    // baseURL: process.env.VUE_APP_REST_API_URL,
+    proxy: true,
+    debug: process.env.NODE_ENV && process.env.NODE_ENV === 'development',
+  },
+
+  proxy: {
+    '/api': {
+      target: 'http://127.0.0.1:3000',
+      pathRewrite: {
+        '^/api': '/api',
+      }
+    },
+    '/auth': {
+      target: 'http://127.0.0.1:3000',
+      pathRewrite: {
+        '^/auth': '/auth',
+      }
+    },
+  },
+
   auth: {
     strategies: {
       local: {

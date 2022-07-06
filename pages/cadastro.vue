@@ -123,18 +123,19 @@ export default {
     submit() {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$auth.loginWith('local', { data: this.user }).then((response) => {
-            this.$auth.setUser(response.data.data)
-            this.$auth.$storage.setUniversal('user', this.$auth.user, true)
-            this.setUser(this.$auth.user)
-
-            this.$router.push({ path: redirectUrl })
+          this.$axios.$post('auth', {
+            user: this.user
+          }).then((response) => {
+            console.log(response)
+            console.log('criada')
           }).catch((error) => {
-            const { errors } = error.response.data;
-            this.error = errors
-              ? errors
-              : ["Não foi possível se conectar ao backend."];
-         });
+            let errorResponse = error.response
+            if (errorResponse) {
+              // Erros vindos da API
+              this.error = error.response.data.errors.full_messages
+            } else
+              this.error = ["Não foi possível se conectar ao backend."]
+          })
         }
       });
     },
