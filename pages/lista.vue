@@ -134,8 +134,7 @@ export default {
   },
   computed: {
     isAdmin() {
-      console.log(this.$auth.user)
-      return true
+      return this.$auth.user.role == 'Admin'
     }
   },
   methods: {
@@ -147,13 +146,14 @@ export default {
     deleteUser(id) {
       this.$axios.$delete(`api/v1/admin/users/${id}`)
                  .then((response) => {
-        console.log(response)
+        this.users = this.users.filter(user => user.id != id)
       })
     },
     suspendUser(id) {
       this.$axios.$get(`api/v1/admin/users/${id}/suspend`)
                  .then((response) => {
-        console.log(response)
+        var user = this.users.find(user => user.id == id)
+        user.status = response.status
       })
     },
     searchUsers() {
