@@ -35,6 +35,8 @@ export default {
   plugins: [
     // middleware for tokens inside headers
     { src: '~plugins/axios.js' },
+    // package for input form validations
+    { src: '~plugins/veevalidate.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
