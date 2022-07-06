@@ -9,7 +9,7 @@
       <div class="card-content">
         <div class="card-body pt-1">
           <form @submit.prevent="submit">
-            <fieldset class="form-label-group form-group position-relative has-icon-left">
+            <fieldset class="form-label-group form-group position-relative">
               <input
                 v-model="user.email"
                 v-validate="'required|email'"
@@ -25,13 +25,31 @@
                 class="text-danger text-sm"
                 v-show="errors.has('email')"
               >{{ errors.first('email') }}</span>
-              <div class="form-control-position">
-                <i class="feather icon-mail"></i>
-              </div>
+
               <label for="user-email">Email</label>
             </fieldset>
 
-            <fieldset class="form-label-group position-relative has-icon-left">
+            <fieldset class="form-label-group form-group position-relative">
+              <input
+                v-model="user.name"
+                v-validate="'required'"
+                name="name"
+                type="text"
+                class="form-control"
+                id="user-name"
+                placeholder="Nome"
+                required
+              />
+
+              <span
+                class="text-danger text-sm"
+                v-show="errors.has('name')"
+              >{{ errors.first('name') }}</span>
+
+              <label for="user-email">Nome completo</label>
+            </fieldset>
+
+            <fieldset class="form-label-group position-relative">
               <input
                 v-model="user.password"
                 v-validate="'required'"
@@ -46,10 +64,27 @@
                 class="text-danger text-sm"
                 v-show="errors.has('password')"
               >{{ errors.first('password') }}</span>
-              <div class="form-control-position">
-                <i class="feather icon-lock"></i>
-              </div>
+
               <label for="user-password">Senha</label>
+            </fieldset>
+
+            <fieldset class="form-label-group position-relative">
+              <input
+                v-model="user.password_confirmation"
+                v-validate="'required'"
+                name="password"
+                type="password"
+                class="form-control"
+                id="user-password"
+                placeholder="Repita a senha"
+                required
+              />
+              <span
+                class="text-danger text-sm"
+                v-show="errors.has('password')"
+              >{{ errors.first('password') }}</span>
+
+              <label for="user-password">Repita a senha</label>
             </fieldset>
 
             <span class="text-danger text-sm" v-if="error">
@@ -59,15 +94,9 @@
             </span>
 
             <button type="submit" class="btn btn-primary float-left btn-inline" style="">
-              Fazer login
-            </button>
-          </form>
-
-          <nuxt-link :to="{ path: '/cadastro' }">
-            <button class="btn btn-primary float-left btn-inline" style="">
               Criar conta
             </button>
-          </nuxt-link>
+          </form>
         </div>
       </div>
 
@@ -83,7 +112,9 @@ export default {
     return {
       user: {
         email: "",
+        name: "",
         password: "",
+        password_confirmation: "",
       },
       error: null,
     };
