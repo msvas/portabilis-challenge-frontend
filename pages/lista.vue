@@ -6,6 +6,32 @@
         <hr />
       </div>
 
+      <div class="card-header row">
+        <div class="col-5">
+          <b-form-input v-model="keyword" placeholder="Buscar usuário"></b-form-input>
+        </div>
+        <div class="col-5">
+          <b-form-group
+            label="Ordenar por"
+          >
+            <b-form-checkbox-group
+              id="checkbox-group-1"
+              v-model="sort"
+              name="flavour-2"
+            >
+              <b-form-checkbox value="name">Nome</b-form-checkbox>
+              <b-form-checkbox value="email">Email</b-form-checkbox>
+              <b-form-checkbox value="role">Nível de acesso</b-form-checkbox>
+            </b-form-checkbox-group>
+          </b-form-group>
+        </div>
+        <div class="col-2">
+          <b-button variant="primary" @click="searchUsers()" class="mr-2">
+            Buscar
+          </b-button>
+        </div>
+      </div>
+
       <div class="card-content">
         <div class="card-body pt-1">
           <div>
@@ -39,6 +65,8 @@ export default {
   data() {
     return {
       users: [],
+      keyword: null,
+      sort: [],
       fieldsRegular: [
         {
           key: 'id',
@@ -112,7 +140,15 @@ export default {
 
     },
     suspendUser(id) {
-      
+
+    },
+    searchUsers() {
+      this.$axios.post('api/v1/users/search',
+                       { keyword: this.keyword,
+                         sort: this.sort })
+                 .then((response) => {
+        this.users = response.data
+      })
     }
   }
 }
