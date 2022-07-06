@@ -7,7 +7,7 @@
       </div>
 
       <div class="card-header row">
-        <div class="col-5">
+        <div class="col-4">
           <b-form-input v-model="keyword" placeholder="Buscar usuário"></b-form-input>
         </div>
         <div class="col-5">
@@ -25,9 +25,12 @@
             </b-form-checkbox-group>
           </b-form-group>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <b-button variant="primary" @click="searchUsers()" class="mr-2">
             Buscar
+          </b-button>
+          <b-button variant="outline-primary" @click="clearFilters()" class="mr-2">
+            Limpar
           </b-button>
         </div>
       </div>
@@ -37,12 +40,12 @@
           <div>
             <b-table striped hover :items="users" :fields="isAdmin ? fieldsAdmin : fieldsRegular">
               <template #cell(remove_user)="data">
-                <b-button size="sm" @click="deleteUser(data.item.id)" class="mr-2">
+                <b-button variant="danger" size="sm" @click="deleteUser(data.item.id)" class="mr-2">
                   Remover
                 </b-button>
               </template>
               <template #cell(suspend_user)="data">
-                <b-button size="sm" @click="suspendUser(data.item.id)" class="mr-2">
+                <b-button variant="danger" size="sm" @click="suspendUser(data.item.id)" class="mr-2">
                   <span v-if="data.item.status == 'Active'">Suspender</span>
                   <span v-else>Ativar</span>
                 </b-button>
@@ -61,11 +64,12 @@
 <script>
 export default {
   name: 'ListPage',
-  layout: 'full',
+  layout: 'navbar',
+  middleware: 'auth',
   data() {
     return {
       users: [],
-      keyword: null,
+      keyword: '',
       sort: [],
       fieldsRegular: [
         {
@@ -126,29 +130,44 @@ export default {
     };
   },
   mounted() {
-    this.$axios.$get('api/v1/users').then((response) => {
-      this.users = response
-    })
+    this.getAllUsers()
   },
   computed: {
     isAdmin() {
+      console.log(this.$auth.user)
       return true
     }
   },
   methods: {
+    getAllUsers() {
+      this.$axios.$get('api/v1/users').then((response) => {
+        this.users = response
+      })
+    },
     deleteUser(id) {
-
+      this.$axios.$delete(`api/v1/admin/users/${id}`)
+                 .then((response) => {
+        console.log(response)
+      })
     },
     suspendUser(id) {
-
+      this.$axios.$get(`api/v1/admin/users/${id}/suspend`)
+                 .then((response) => {
+        console.log(response)
+      })
     },
     searchUsers() {
-      this.$axios.post('api/v1/users/search',
+      this.$axios.$post('api/v1/users/search',
                        { keyword: this.keyword,
                          sort: this.sort })
                  .then((response) => {
         this.users = response.data
       })
+    },
+    clearFilters() {
+      this.keyword = ''
+      this.sort = []
+      this.getAllUsers()
     }
   }
 }
