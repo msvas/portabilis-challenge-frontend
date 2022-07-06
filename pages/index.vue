@@ -91,9 +91,6 @@ export default {
           this.$auth.loginWith('local', { data: this.user }).then((response) => {
             this.$auth.setUser(response.data.data)
             this.$auth.$storage.setUniversal('user', this.$auth.user, true)
-            this.setUser(this.$auth.user)
-
-            this.$router.push({ path: redirectUrl })
           }).catch((error) => {
             const { errors } = error.response.data;
             this.error = errors

@@ -123,9 +123,7 @@ export default {
     submit() {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          this.$axios.$post('auth', {
-            user: this.user
-          }).then((response) => {
+          this.$axios.$post('auth', this.user).then((response) => {
             console.log(response)
             console.log('criada')
           }).catch((error) => {
