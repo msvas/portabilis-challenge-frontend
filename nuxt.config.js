@@ -1,6 +1,12 @@
+const RESOURCE_URL = '/user_auth'
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+
+  server: {
+    port: process.env.PORT ? process.env.PORT : '8080' // default: 3000
+  },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -38,7 +44,49 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    // axios for requests
+    '@nuxtjs/axios',
+    // auth package for Nuxt
+    '@nuxtjs/auth-next',
   ],
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: false,
+          global: true,
+          required: true,
+          type: 'Bearer',
+        },
+        user: {
+          property: 'data',
+          autoFetch: true,
+        },
+        endpoints: {
+          login: {
+            url: `${RESOURCE_URL}/sign_in`,
+            method: 'post',
+            propertyName: false
+          },
+          user: {
+            url: `${RESOURCE_URL}/validate_token`,
+            method: 'get',
+          },
+          logout: {
+            url: `${RESOURCE_URL}/sign_out`,
+            method: 'delete',
+          }
+        },
+      },
+    },
+    redirect: {
+      login: '/',
+      logout: false,
+      home: false,
+      callback: false,
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
