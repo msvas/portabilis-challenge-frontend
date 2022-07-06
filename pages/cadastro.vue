@@ -87,6 +87,11 @@
               <label for="user-password">Repita a senha</label>
             </fieldset>
 
+            <b-form-group label="Nível de acesso" v-slot="{ ariaDescribedby }">
+              <b-form-radio v-model="user.role" :aria-describedby="ariaDescribedby" name="some-radios" value="Regular">Conta normal</b-form-radio>
+              <b-form-radio v-model="user.role" :aria-describedby="ariaDescribedby" name="some-radios" value="Admin">Administrador</b-form-radio>
+            </b-form-group>
+
             <span class="text-danger text-sm" v-if="error">
               <ul>
                 <li v-for="er in error" :key="er">{{er}}</li>
@@ -101,6 +106,13 @@
       </div>
 
     </div>
+
+    <b-modal id="modalPopover" v-model="modalShow" title="Conta criada com sucesso!" ok-only>
+      <p>
+        A conta já foi criada no sistema.
+      </p>
+    </b-modal>
+
   </div>
 </template>
 
@@ -115,8 +127,10 @@ export default {
         name: "",
         password: "",
         password_confirmation: "",
+        role: "Regular",
       },
       error: null,
+      modalShow: false,
     };
   },
   methods: {
@@ -126,6 +140,7 @@ export default {
           this.$axios.$post('auth', this.user).then((response) => {
             console.log(response)
             console.log('criada')
+            this.modalShow = true
           }).catch((error) => {
             let errorResponse = error.response
             if (errorResponse) {

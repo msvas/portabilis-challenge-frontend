@@ -1,4 +1,4 @@
-const RESOURCE_URL = '/user_auth'
+const RESOURCE_URL = '/auth'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
