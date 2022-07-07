@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card rounded-0 mb-0 px-2">
+    <div v-if="$auth.user.status == 'Active'" class="card rounded-0 mb-0 px-2">
 
       <div class="divider">
         <hr />
@@ -56,6 +56,9 @@
         </div>
       </div>
 
+    </div>
+    <div v-else class="card rounded-0 mb-0 px-2">
+      <h4 class="m-1">Você está suspenso. Fale com um admin.</h4>
     </div>
 
   </div>

@@ -3,7 +3,7 @@
     <div class="content-wrapper">
       <div class="content-body">
         <b-navbar toggleable="lg" type="dark" variant="info">
-          <b-navbar-brand href="/">RHComp</b-navbar-brand>
+          <b-navbar-brand href="/">RHCorp</b-navbar-brand>
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
