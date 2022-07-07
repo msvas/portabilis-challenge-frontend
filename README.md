@@ -14,7 +14,7 @@ $ npm run dev
 ```
 
 ## Variável de ambiente
-É necessário indicar a variável `VUE_APP_REST_API_URL` em um arquivo `.env`
+É necessário indicar a variável `VUE_APP_REST_API_URL` com o endereço do backend em um arquivo `.env`
 ```bash
 # exemplo
 # .env
