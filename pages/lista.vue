@@ -7,10 +7,10 @@
       </div>
 
       <div class="card-header row">
-        <div class="col-4">
+        <div class="col-3">
           <b-form-input v-model="keyword" placeholder="Buscar usuário"></b-form-input>
         </div>
-        <div class="col-5">
+        <div class="col-3">
           <b-form-group
             label="Ordenar por"
           >
@@ -23,6 +23,12 @@
               <b-form-checkbox value="email">Email</b-form-checkbox>
               <b-form-checkbox value="role">Nível de acesso</b-form-checkbox>
             </b-form-checkbox-group>
+          </b-form-group>
+        </div>
+        <div class="col-3">
+          <b-form-group label="Sentido da ordenação" v-slot="{ ariaDescribedby }">
+            <b-form-radio :disabled="sort.length > 1" v-model="direction" :aria-describedby="ariaDescribedby" name="some-radios" value="asc">Menor para o maior</b-form-radio>
+            <b-form-radio :disabled="sort.length > 1" v-model="direction" :aria-describedby="ariaDescribedby" name="some-radios" value="desc">Maior para o menor</b-form-radio>
           </b-form-group>
         </div>
         <div class="col-3">
@@ -74,6 +80,7 @@ export default {
       users: [],
       keyword: '',
       sort: [],
+      direction: 'asc',
       fieldsRegular: [
         {
           key: 'id',
@@ -162,7 +169,8 @@ export default {
     searchUsers() {
       this.$axios.$post('api/v1/users/search',
                        { keyword: this.keyword,
-                         sort: this.sort })
+                         sort: this.sort,
+                         direction: this.direction })
                  .then((response) => {
         this.users = response
       })
