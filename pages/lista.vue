@@ -39,6 +39,9 @@
             Limpar
           </b-button>
         </div>
+        <div class="col-12">
+          <h6 class="">O cache da lista geral atualiza a cada 1 minuto. As buscas não são afetadas.</h6>
+        </div>
       </div>
 
       <div class="card-content">
